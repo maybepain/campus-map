@@ -23,7 +23,7 @@ def main(page: ft.Page):
         if darkmodee.value==False:
             page.theme_mode="light"
             search_bar.color="green"
-            right_panel.bgcolor="white"
+            right_panel.bgcolor="white" 
 
             page.update()
         elif darkmodee.value==True:
@@ -163,4 +163,4 @@ def main(page: ft.Page):
     )
 
 if __name__ == "__main__":
-    ft.app(target=main,view=ft.WEB_SERVER,port=8080,assets_dir="assets")
+    ft.app(target=main,assets_dir="assets")
