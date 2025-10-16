@@ -63,7 +63,7 @@ def main(page: ft.Page):
             mapimg.src="assets/campus_map2.png"
             
         elif selected_index == 1:
-            mapimg.src="assets/campus_map.png"
+            mapimg.src="assets/campusap.png"
             
         elif selected_index == 2:
             pass
