@@ -14,6 +14,8 @@ MAP_BASE_HEIGHT = 800
 
 def main(page: ft.Page):
     page.title = "Campus Map with Animated Panel"
+    
+    
     page.padding = 0
     page.window_width = 400
     page.window_height = 700
@@ -32,33 +34,86 @@ def main(page: ft.Page):
             right_panel.bgcolor = "white"
         else:
             page.theme_mode = "dark"
-            right_panel.bgcolor = "grey"
-            search_bar.color = "grey"
+            right_panel.bgcolor = "black"
+            search_bar.color = "black"
         page.update()
+
+    darkmodee=ft.CupertinoSwitch(
+                label="",
+                focus_color="red",
+                value=False,
+                on_change=darkmode
+            )
+
+
+    #darkmode
+    darkmodeall=ft.Row(
+        controls=[
+            ft.Text(value="light"),
+            darkmodee,
+            ft.Text(value="dark")
+
+        ]
+    )
+
+    #satelite mode
+    def satelite(e):
+        selected_index = e.control.selected_index
+        if selected_index == 0:
+            mapimg.src="assets/campus_map2.png"
+            
+        elif selected_index == 1:
+            mapimg.src="assets/campus_map.png"
+            
+        elif selected_index == 2:
+            pass
+           
+        
+
+            page.update()
+            
+        
+        page.update()
+
+        
+    #downpanel items
+    satelitebutt=ft.NavigationBarDestination(icon=ft.Icons.SATELLITE_ALT,label="NORMAL MODE")
+    satelitebutt2=ft.NavigationBarDestination(icon=ft.Icons.SATELLITE_ALT,label="SATALITE MODE")
+
+
+    #downpanel
+    downbar=ft.NavigationBar(
+        destinations=[
+            satelitebutt,
+            satelitebutt2,
+            ft.NavigationBarDestination(icon=ft.Icons.THREED_ROTATION,label="3D MODE"),
+            ft.NavigationBarDestination(icon=ft.Icons.CAMERA_ALT,label="CAMARA MODE"),
+            
+           
+
+
+        ],on_change=satelite
+    )
 
     # --- Right-side panel ---
     panel_width = 200
     panel_visible = False
-    darkmodee = ft.CupertinoSwitch(
-        label="",
-        focus_color="red",
-        value=False,
-        on_change=darkmode
-    )
+   
+   
 
     right_panel = ft.Container(
         content=ft.Column(
             [
                 ft.Text("Panel", size=20, weight=ft.FontWeight.BOLD),
                 ft.Divider(),
-                darkmodee
+                darkmodeall
             ],
             spacing=10,
             scroll=ft.ScrollMode.AUTO,
         ),
         width=panel_width,
         height=page.height,
-        bgcolor="white",
+        bgcolor="#b2b2b2",
         padding=15,
         right=-panel_width,  # Start hidden outside screen
         top=0,
@@ -76,7 +131,7 @@ def main(page: ft.Page):
     )
 
     # --- Toggle button (top-right) ---
-    toggle_button = ft.FloatingActionButton(icon="menu", right=20, top=20)
+    toggle_button = ft.FloatingActionButton(icon="menu", right=20, top=20, )
 
     def toggle_panel(e):
         nonlocal panel_visible
@@ -86,14 +141,17 @@ def main(page: ft.Page):
 
     toggle_button.on_click = toggle_panel
 
-    # --- Map background ---
-    map_container = ft.Container(
-        content=ft.Image(
-            src="/campus_map.png",
+    #img backround
+    mapimg=ft.Image(
+            src="assets/campus_map2.png",
             fit=ft.ImageFit.COVER,
             width=MAP_BASE_WIDTH,
             height=MAP_BASE_HEIGHT
-        ),
+        )
+
+    # --- Map background ---
+    map_container = ft.Container(
+        content=mapimg,
         left=0,
         top=0,
         expand=True,
@@ -166,6 +224,8 @@ def main(page: ft.Page):
 
     # --- 3D Button ---
     bttn1 = ft.FilledButton(text="SWITCH TO 3D MODE")
+    #bttn2 = ft.FilledButton(text="SWITCH TO CAMARA MODE")
+    
 
     # --- Handle window resize ---
     def on_resize(e):
@@ -180,7 +240,7 @@ def main(page: ft.Page):
             ft.Container(content=search_bar, top=20, left=20, width=300),
             right_panel,
             ft.Container(content=zoom_slider, bottom=20, left=20, width=200),
-            ft.Container(content=bttn1, bottom=100, left=90, width=200),
+            ft.Container(content=downbar, bottom=0, left=0, width=400),
             toggle_button
         ], expand=True)
     )
